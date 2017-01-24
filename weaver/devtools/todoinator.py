@@ -6,11 +6,11 @@ He would write (long hand) a page of his new book.  And read it, and
 place the page on the wall of his study, and start on the next page.
 But the page stuck to the wall was not at some random location - it
 was, perhaps obviously, in order going horizontally around the room,
-but it was also vertically where he thought it should be relative to 
+but it was also vertically where he thought it should be relative to
 the *quality* he expected of himself.::
 
-   "Pages would start near the floor and slowly work their way up 
-    until they touched the picture rail, when they were good enough 
+   "Pages would start near the floor and slowly work their way up
+    until they touched the picture rail, when they were good enough
     for publication"
 
 This jibes marvellously with how I think of software development.  It
@@ -18,16 +18,16 @@ is focused on the code itself - the rating system is not in a
 notebook, spreadsheet or bug tracker, it is a natural extension of where
 and how the code is stored.
 
-So I intend to update and release my todo-inator idea. 
+So I intend to update and release my todo-inator idea.
 
 There are two parts - the rating of the code, by the author.  this will be a simple
 five star system ::
 
    # rate: * * * * *
-   # lifecycle: <prototype/PoC>, <pre-release>, maturing, mature, retiring 
-   # TODO: 
+   # lifecycle: <prototype/PoC>, <pre-release>, maturing, mature, retiring
+   # TODO:
 
-And we can then see this rating in a specialised `ls`. 
+And we can then see this rating in a specialised `ls`.
 
 specialised ls - walk over a package source and tell me ::
 
@@ -35,7 +35,7 @@ specialised ls - walk over a package source and tell me ::
    todos
    new features
 
-I think I will have a second system that correlates to a map of my todos and 
+I think I will have a second system that correlates to a map of my todos and
 some external systems
 And some way of recording success / failures
 
@@ -43,7 +43,7 @@ Design
 ------
 
 walk a source tree, and build a dict of file: {markers...}
-return that 
+return that
 
 
 TODO: build a test framework / runner
@@ -69,7 +69,7 @@ def walk_tree(rootpath):
         for d in ignoredirs:
             if d in dirs:
                 dirs.remove(d)
-                            
+
         for file in files:
             thisfile = os.path.join(dirpath, file)
             yield thisfile
@@ -81,13 +81,18 @@ def parse_file(txt):
             #valid possible
             for token in ['rate:', 'todo:', 'life:']:
                 if line.lower().find(token) >-1:
-                    res[token] = line
+                    res.setdefault(token, []).append(line)
     return res
-            
+
+def parse_tree(rootpath):
+    """
+    """
+    for filepath in walk_tree(rootpath):
+        parsed_file = parse_file(open(filepath).read())
+        if 'todo:' in parsed_file:
+            print "\n" + filepath
+            for todoline in parsed_file['todo:']:
+                print "-", todoline
+
 if __name__ == '__main__':
-    for filepath in walk_tree('/root/projects/devmanual'):
-        print filepath, parse_file(open(filepath).read())
-
-
-
-
+    parse_tree('/root/projects/devmanual')
