@@ -14,4 +14,6 @@ chown pbrian:pbrian -R $VENV
 
 #: openssh-server
 sudo apt-get install openssh-server
-#: configure
+#: configure sshd (its usually pretty good so nothing needed right now)
+# now we can use fabric form the python install above to connect to the
+# sshd on localhost - all further work can be done via fabric to localhost
