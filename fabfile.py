@@ -61,13 +61,19 @@ def install_sshd():
 
 def install_docker():
     """
+    NB fixed on a specific version of Docker.
+    Upgrade carefully.
+
+
+    https://docs.docker.com/engine/installation/linux/ubuntulinux/#install-a-specific-version
     """
     sudo("apt-get update")
     sudo("apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D")
     sudo("apt-add-repository 'deb https://apt.dockerproject.org/repo ubuntu-xenial main'")
     sudo("apt-get update")
     sudo("apt-cache policy docker-engine")
-    sudo("apt-get install -y docker")
+    sudo("apt-get install -y linux-image-extra-$(uname -r) linux-image-extra-virtual")
+    sudo("apt-get install -y docker-engine=1.12.4-0~ubuntu-xenial")
 
 def install_atom():
     url = 'https://github.com/atom/atom/releases/download/v1.12.5/atom-amd64.deb'
@@ -77,3 +83,22 @@ def install_atom():
 
 def remove_atom():
     sudo("dpkg --remove %s" % pkg)
+
+def install_xfce4():
+    sudo("apt-get update")
+    sudo("apt-get install -y xfce4")
+    sudo("apt-get install -y lubuntu-desktop")
+
+def install_dropbox():
+    """
+    # install drop box on local linux box
+    cd /tmp
+    wget https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_2015.10.28_amd64.deb .
+    sudo apt-get install python-gtk2 libpango1.0-0
+
+    """
+    sudo("apt-get install -f python-gtk2")
+    sudo("apt-get install -f libpango1.0-0")
+    tmpfile = "/tmp/dropboxfoo"
+    sudo("wget https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_2015.10.28_amd64.deb %s" % tmpfile)
+    sudo("dpkg -i %s" %  tmpfile)

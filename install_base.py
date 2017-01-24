@@ -1,6 +1,8 @@
 # aptinstall.py
 
 #: i need to have apt installed
+########################## DEPRECATE BECAUSE installing apt is not as complete
+########################## as using fabric despite 3.0 issues
 
 import apt
 import sys
@@ -30,7 +32,7 @@ def download_file(url):
     # NOTE the stream=True parameter
     r = requests.get(url, stream=True)
     with open(local_filename, 'wb') as f:
-        for chunk in r.iter_content(chunk_size=1024): 
+        for chunk in r.iter_content(chunk_size=1024):
             if chunk: # filter out keep-alive new chunks
                 f.write(chunk)
                 #f.flush() commented by recommendation from J.F.Sebastian
