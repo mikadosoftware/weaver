@@ -33,8 +33,6 @@ def clean_tree(cwd=None, killflag=False):
                     kill_list.append(os.path.join(root, file))
     killfiles(kill_list, killflag)
 
-WEAVER_ENTRY_POINTS=[clean_tree]
-
 if __name__ == '__main__':
     import doctest
     doctest.testmod()

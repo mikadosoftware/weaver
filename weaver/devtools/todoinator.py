@@ -59,9 +59,26 @@ return that
 
 import os
 
+def keep_file(filepath):
+    """Decide if we keep the filepath, solely by exlcusion of end of path
+
+    This is primarily to avoid keeping .pyc files
+
+    >>> keep_file('/foo.pyc')
+    False
+
+    """
+    ignoredpathendings = ['.pyc',]
+    for ending in ignoredpathendings:
+        if filepath.endswith(ending):
+            return False
+    return True
 
 def walk_tree(rootpath):
+    """
+    """
     ignoredirs = ['.git',]
+
     for dirpath, dirs, files in os.walk(rootpath):
         #change dirs to remove unwanted dirs to descend into
         #rememer we need to use .remove as dirs seems to just point at
@@ -70,29 +87,37 @@ def walk_tree(rootpath):
             if d in dirs:
                 dirs.remove(d)
 
+        files = filter(keep_file, files)
         for file in files:
             thisfile = os.path.join(dirpath, file)
             yield thisfile
 
 def parse_file(txt):
-    res = {}
+    """extract todo lines from a file
+
+    >>> parse_file("# todo: foo\\n foo")
+    [' foo']
+    """
+    res = []
     for line in txt.split('\n'):
         if line.strip().startswith('#'):
             #valid possible
-            for token in ['rate:', 'todo:', 'life:']:
-                if line.lower().find(token) >-1:
-                    res.setdefault(token, []).append(line)
+            for token in ['todo:']:
+                stpoint = line.lower().find(token)
+                if stpoint >-1:
+                    res.append(line[stpoint+len(token):])
     return res
 
 def parse_tree(rootpath):
     """
     """
     for filepath in walk_tree(rootpath):
-        parsed_file = parse_file(open(filepath).read())
-        if 'todo:' in parsed_file:
+        todo_list = parse_file(open(filepath).read())
+        if todo_list:
             print "\n" + filepath
-            for todoline in parsed_file['todo:']:
+            for todoline in todo_list:
                 print "-", todoline
 
 if __name__ == '__main__':
-    parse_tree('/root/projects/devmanual')
+    import doctest
+    doctest.testmod(verbose=False)

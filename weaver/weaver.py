@@ -18,6 +18,21 @@ from docopt import docopt
 weaver
 ------
 
+I want to have a single dev-helper tool plus a stringent dev process.
+So I want weaver.  It will act a little bit like phab in phabricatgor - a local
+command line tool that will enforce local operations.
+
+Things I want as a develeoper
+
+* Linting tool
+* testing tool - py.test that can use doctests as well as others
+* todoinator
+* linking todos to longer term store
+* code-forensics?
+* build tool
+* laptop build tool
+
+
 
 # todo:: set up weaver project files, including
        making weavier requirments.txt use -e git:/// for mikadolib
