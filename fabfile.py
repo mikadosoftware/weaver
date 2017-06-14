@@ -19,6 +19,12 @@ docker instances.
 
 * whats the main approach - lots of small modules doing things, ala salt?
 
+Keeping my *own* laptop uptodate
+
+fab install_terminal will login to my local laptop and sudo install the instructiones below.
+I need a means to flip that in weaver...
+
+
 ---------------
 Features wanted
 ---------------
@@ -102,3 +108,29 @@ def install_dropbox():
     tmpfile = "/tmp/dropboxfoo"
     sudo("wget https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_2015.10.28_amd64.deb %s" % tmpfile)
     sudo("dpkg -i %s" %  tmpfile)
+
+def install_terminal():
+    """
+    Using uxrvt
+    No using mlterm
+    """
+    pkgs = ['rxvt-unicode-256color',
+            'mlterm','mlterm-common',
+            'mlterm-im-scim'            
+           ]
+    for pkg in pkgs:
+        sudo("apt-get install -y %s " % pkg)
+        
+def install_fonts():
+    """
+    I want to install inconsolata
+    """
+    sudo("apt-get install fonts-inconsolata -y")
+    sudo("fc-cache -fv") # refresh the cache of fonts    
+    #edit .emacs?
+    #(set-default-font "Inconsolata-12")
+    #But I need to make it available
+# install python3
+# sudo apt-get install python3 python3-pip
+# install python from apt ????
+# from source, but ??? wheels first...

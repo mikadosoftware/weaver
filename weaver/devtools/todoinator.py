@@ -89,13 +89,21 @@ confd = {'todoinator.priorityregex': "\{\d+\}"}
 class TODO(object):
     """
     """
-    def __init__(self, line):
+    def __init__(self, line, filepath=None):
         """
         """
         parsedline, priority = parse_line(line)
         self.line = parsedline
         self.priority = priority
-        
+        self.origpath = filepath
+        try:
+            absfilepath = os.path.abspath(filepath)
+            print absfilepath
+            bits = absfilepath.split("/")
+            idx = bits.index("projects") #assume thats there
+            self.reponame = bits[idx+1]
+        except ValueError: # cant find projects in path
+            self.reponame = '?'
 
 
 def keep_file(filepath):
@@ -172,14 +180,24 @@ def parse_line(todoline):
 def parse_tree(rootpath):
     """
     """
+    all_todos = []
+    
     for filepath in walk_tree(rootpath):
-        todo_list = parse_file(open(filepath).read())
-        res = reversed(sorted([TODO(line) for line in todo_list], key=lambda t: t.priority))        
+        try:
+            todo_list = parse_file(open(filepath).read())
+            res = sorted([TODO(line, filepath) for line in todo_list], key=lambda t: t.priority, reverse=True)
+        except IOError:
+            res = []
+            
         if res:
-            print "\n" + filepath
-            for todoobj in res:
-                print "-", todoobj.line, todoobj.priority
+            all_todos.extend(res)
 
+    all_todos = sorted(all_todos, key=lambda t: t.priority, reverse=True)
+    for todo in all_todos:
+        print "* %s - %s (%s)" % (todo.priority, todo.line, todo.reponame)
+
+    
 if __name__ == '__main__':
     import doctest
     doctest.testmod(verbose=False)
+ 
