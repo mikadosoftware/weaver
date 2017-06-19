@@ -181,6 +181,7 @@ def parse_tree(rootpath):
     """
     """
     all_todos = []
+    htmlfrag = "<table>"
     
     for filepath in walk_tree(rootpath):
         try:
@@ -194,7 +195,13 @@ def parse_tree(rootpath):
 
     all_todos = sorted(all_todos, key=lambda t: t.priority, reverse=True)
     for todo in all_todos:
-        print "* %s - %s (%s)" % (todo.priority, todo.line, todo.reponame)
+        htmlfrag += "<tr><td>%s</td> <td>%s</td> <td>%s</td> </tr>\n" %  (todo.priority, todo.reponame, todo.line)
+    htmlfrag += "</table>"
+    #######################
+    path = "/tmp/todo.html"
+    open(path, 'w').write(htmlfrag)
+    import webbrowser
+    webbrowser.open(path)
 
     
 if __name__ == '__main__':
