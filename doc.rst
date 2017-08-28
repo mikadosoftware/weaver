@@ -12,6 +12,12 @@ Maintaining my Development Environment
   To enable a consistent pre- and post- commit process, ensuring linting etc
   are done correctly, commit messages are properly formatted etc.
 
+Migrating to Fedora
+-------------------
+For various boring reasons I am migrating to use a Fedora workstation.
+This means I need to adjust apt-get to yum (I want weaver to remain simple so I am reluctant to jumpt tosome kind of "detect OS and do different things" approach)
+
+
 -------------------
 Bootstrap to weaver
 -------------------
