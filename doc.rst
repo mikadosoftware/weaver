@@ -18,6 +18,36 @@ For various boring reasons I am migrating to use a Fedora workstation.
 This means I need to adjust apt-get to yum (I want weaver to remain simple so I am reluctant to jumpt tosome kind of "detect OS and do different things" approach)
 
 
+initial start up
+This is asuming a clean machine.
+
+* from my personal USB stick, install my own .ssh folder.
+* I might also install a start up script ?
+
+
+start up script
+
+* can I see "the internet"?
+ping 8.8.8.8
+
+* can I see github
+ssh -T git@github.com
+-> this shows I have both a internet connection and a ssh private key (id_rsa?) that has a finger print registered with github
+
+
+Python install
+--------------
+
+We have python (2.6.1) and python3 (3.6.1)
+
+
+ am aiming for python3 as base standard
+So that means my develop,emtn work will be in pyhton3, and I need venvs in p3
+
+* SO we need to install pip3 from the package manager
+* then from pip3 install virtualenvrapper (/usr/bin/virtualenvwrapper)
+
+
 -------------------
 Bootstrap to weaver
 -------------------
