@@ -14,18 +14,18 @@ def touchpad():
     out = subprocess.check_output(["xinput",])
     for line in out.split("\n"):
         if line.lower().find("touchpad") != -1:
-            print line,
+            print(line, end=' ')
             for word in line.split():
                 if word.find("id=") != -1:
                     num = word.replace("id=", "").strip()
-                    print num
+                    print(num)
                     nums.append(num)
     nums.sort()
     touchpadid = nums[0]
     cmds = ["xinput", "--disable", touchpadid]
-    print "running", cmds
+    print("running", cmds)
     out = subprocess.check_output(cmds)
-    print out
+    print(out)
 
 if __name__ == '__main__':
     touchpad()

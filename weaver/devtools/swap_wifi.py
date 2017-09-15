@@ -25,10 +25,10 @@ def write_apply(networkName=None, tmpl=None, datad=None):
     
     interfacesPath = '/etc/network/interfaces'
     open(interfacesPath,'w').write(tmpl.format(**datad))
-    print "{networkName} written".format(networkName=networkName)    
-    print subprocess.check_call("ifdown {wlanX}".format(**datad), shell=True)
-    print
-    print subprocess.check_call("ifup {wlanX}".format(**datad), shell=True)
+    print("{networkName} written".format(networkName=networkName))    
+    print(subprocess.check_call("ifdown {wlanX}".format(**datad), shell=True))
+    print()
+    print(subprocess.check_call("ifup {wlanX}".format(**datad), shell=True))
 
 
     
@@ -36,7 +36,7 @@ if __name__== '__main__':
     try:
         arg = sys.argv[1:][0]
     except:
-        print "no arg,"
+        print("no arg,")
         arg = None
     if arg == 'iphone':
         d = {'ssid': '''Paul's iPhone''',
@@ -57,6 +57,6 @@ if __name__== '__main__':
             }
         write_apply(networkName='enalion', tmpl=tmpl, datad=d)        
     else:
-        print "Nothing try iphone or vfast or enalion"
+        print("Nothing try iphone or vfast or enalion")
         sys.exit(0)
 

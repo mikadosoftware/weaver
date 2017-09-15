@@ -14,9 +14,9 @@ def killfiles(kill_list, flag=False):
     for fn in kill_list:
         if flag:
             os.remove(fn)
-            print "[x] ", fn
+            print("[x] ", fn)
         else:
-            print "[ ] ", fn
+            print("[ ] ", fn)
 
 def clean_tree(cwd=None, killflag=False):
     '''walk eveything below me, delete all the crap

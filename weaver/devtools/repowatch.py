@@ -15,10 +15,10 @@ def showrepos():
 
 #        if "salt" in repo.name:
 #            import code;code.interact(local=locals())
-        if repo.owner.login in (u"lifeisstillgood",
-                                u'mikadosoftware') and not repo.fork:
-            print "#", repo.name
-            print "git clone %s" % repo.ssh_url
+        if repo.owner.login in ("lifeisstillgood",
+                                'mikadosoftware') and not repo.fork:
+            print("#", repo.name)
+            print("git clone %s" % repo.ssh_url)
 
 
 def repo_detail(repo_name):
@@ -33,7 +33,7 @@ def extract_repo_details(repo_full_name):
     users = r1.get_contributors()
     ct = 0
     for u in users:
-        print ".",
+        print(".", end=' ')
         udict = {}
         udict['repo_full_name'] = repo_full_name
         udict['login'] = u.login
@@ -43,7 +43,7 @@ def extract_repo_details(repo_full_name):
         stored(udict)
         ct+=1
         if ct % 10 == 0:
-            print "Sleeping"
+            print("Sleeping")
             time.sleep(1) # try to throttle self
 
 if __name__ == '__main__':

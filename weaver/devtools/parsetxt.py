@@ -22,7 +22,7 @@ def parse_txt(txt):
         hdr = lst[i]
         body = lst[i+1]
         title = hdr.strip().replace("/","").replace("\n", "").replace("=","").replace(" ","_").lower()
-        print "chapters/%s"%title
+        print("chapters/%s"%title)
 
         fo = open("/tmp/foo/%s.rst" % title, 'w')
         fo.write(hdr+"\n"+body)
@@ -43,7 +43,7 @@ def walk_extract_move(rootpath):
             if filename.endswith(".rst") and filename != "index.rst":
                 res.append(os.path.join(dirpath, filename))
     for f in res:
-        print "mv %s /home/pbrian/projects/devmanual/docs/chapters/weeds/" % f
+        print("mv %s /home/pbrian/projects/devmanual/docs/chapters/weeds/" % f)
 
 
 def reals():

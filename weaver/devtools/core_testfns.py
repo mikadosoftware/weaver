@@ -35,8 +35,8 @@ def stub_fs(simpletriple):
     return top
 
 if __name__ == '__main__':
-    print stub_fs([
+    print(stub_fs([
              ('a', ['b',], ['foo.py',]),
              ('a/b', [], ['bar.py',])
-            ])
+            ]))
     

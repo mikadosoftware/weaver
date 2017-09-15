@@ -93,30 +93,30 @@ def fab_runner(commandin=None):
                              )
         
         for line in iter(p.stdout.readline, b''):
-            print "> " + line.rstrip()
+            print(("> " + line.rstrip()))
             
-    except subprocess.CalledProcessError, e:
-        print "### Fab did not like the command"
-        print "# %s" % cmdlist
-        print "### and returned this"
-        print e.output
-        print "##########"
+    except subprocess.CalledProcessError as e:
+        print("### Fab did not like the command")
+        print(("# %s" % cmdlist))
+        print("### and returned this")
+        print((e.output))
+        print("##########")
     
     
 def main():
     args = docopt(docopt_str)
     
     if args['<rootpath>'] and args['todo']:
-        print "starting todo"
+        print("starting todo")
         todo_tree(args['<rootpath>'])
 
 
     if args['<rootpath>'] and args['clean']:
-        print "starting clean"
+        print("starting clean")
         clean(args['<rootpath>'])
 
     if len(args['<commandstr>'])>0 and args['fab']:
-        print "starting fab"
+        print("starting fab")
         fab_runner(" ".join(args['<commandstr>']))
 
         

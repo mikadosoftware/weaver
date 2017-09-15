@@ -1,6 +1,6 @@
 
-from core_testfns import stub_fs
-import todoinator
+from .core_testfns import stub_fs
+from . import todoinator
 
 # this needs to be unit test or doctest module....
 

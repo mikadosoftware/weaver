@@ -54,7 +54,7 @@ def getchapters():
     """walk dir and output as toctree
     """
     for file in os.listdir(CHAPTERDIR):
-        print file
+        print(file)
 
 if __name__ == '__main__':
 #   import doctest

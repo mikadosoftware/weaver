@@ -28,8 +28,8 @@ def parserun(pkgs, dryrun=True):
         for line in o.split("\n"):
             if line.find("Inst") == 0:
                 archive += "\n" + line
-        print archive
-        print o
+        print(archive)
+        print(o)
         
         archivelog(archive)
         archivelog(o)

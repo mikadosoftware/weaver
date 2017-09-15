@@ -98,7 +98,7 @@ class TODO(object):
         self.origpath = filepath
         try:
             absfilepath = os.path.abspath(filepath)
-            print absfilepath
+            print(absfilepath)
             bits = absfilepath.split("/")
             idx = bits.index("projects") #assume thats there
             self.reponame = bits[idx+1]
@@ -134,7 +134,7 @@ def walk_tree(rootpath):
             if d in dirs:
                 dirs.remove(d)
 
-        files = filter(keep_file, files)
+        files = list(filter(keep_file, files))
         for file in files:
             thisfile = os.path.join(dirpath, file)
             yield thisfile
