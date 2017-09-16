@@ -56,6 +56,14 @@ Obviously we do not start with `weaver` installed, so we need to lay out the
 (manual / to be automated) steps first.  In past incarnations I have used
 kickstart and PXEBoot to install OSes etc.  This will have to be re-remembered.
 
+
+* python setup.py develop
+This (in a venv) will install weaver so that the realtive imports work ok
+See https://stackoverflow.com/questions/19048732/python-setup-py-develop-vs-install on fixing realtive imports
+
+* I need to convert to python 3 - all my pront stmts are wrong
+
+
 0. Validate Hardware, safeboot etc
    There is a very valid concern that any modern mainboard has a proprietary
    and un-verifiable (and probalby insecure) OS - usually the Intel ME engine

@@ -1,7 +1,8 @@
 #: Install pip and virtualenvs
 
 sudo yum check-update
-sudo yum install python3-pip python3-devel git-core -y
+sudo yum install python3-pip python3-devel python3-tools git-core -y
+sudo yum install gcc gmp redhat-rpm-config -y #needed for building pycrypto on fedora
 sudo pip3 install virtualenv
 sudo pip3 install virtualenvwrapper
 
@@ -15,6 +16,11 @@ echo "export VIRTUALENVWRAPPER_VIRTUALENV=/usr/bin/virtualenv" >> ~/.bashrc
 
 echo "source /usr/bin/virtualenvwrapper.sh" >> ~/.bashrc
 echo "export PIP_VIRTUALENV_BASE=$VENV" >> ~/.bashrc
+
+
+
+# set fabric settings
+
 
 source ~/.bashrc
 
