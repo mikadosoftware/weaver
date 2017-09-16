@@ -83,6 +83,7 @@ Future enhancements:
 import os
 import re
 
+VALID_SUFFIX = ['.py', '.rst']
 ### config
 confd = {'todoinator.priorityregex': "\{\d+\}"} 
 
@@ -184,11 +185,19 @@ def parse_tree(rootpath):
     htmlfrag = "<table>"
     
     for filepath in walk_tree(rootpath):
+        # test if suffix valid (ie dont parse pyc or wheel)
+        suffix = os.path.splitext(filepath)[1]
+        if suffix not in VALID_SUFFIX:
+            continue
         try:
+
             todo_list = parse_file(open(filepath).read())
             res = sorted([TODO(line, filepath) for line in todo_list], key=lambda t: t.priority, reverse=True)
         except IOError:
             res = []
+        except UnicodeDecodeError as e:
+            print ((e,filepath))
+            raise
             
         if res:
             all_todos.extend(res)
