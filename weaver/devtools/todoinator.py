@@ -82,6 +82,7 @@ Future enhancements:
 
 import os
 import re
+import logging
 
 VALID_SUFFIX = ['.py', '.rst']
 ### config
@@ -99,7 +100,6 @@ class TODO(object):
         self.origpath = filepath
         try:
             absfilepath = os.path.abspath(filepath)
-            print(absfilepath)
             bits = absfilepath.split("/")
             idx = bits.index("projects") #assume thats there
             self.reponame = bits[idx+1]
@@ -182,6 +182,7 @@ def parse_tree(rootpath):
     """
     """
     all_todos = []
+    textfrag = "TODO\n"
     htmlfrag = "<table>"
     
     for filepath in walk_tree(rootpath):
@@ -196,21 +197,22 @@ def parse_tree(rootpath):
         except IOError:
             res = []
         except UnicodeDecodeError as e:
-            print ((e,filepath))
-            raise
+            logging.error("could not read %s - unicode err",filepath)
             
         if res:
             all_todos.extend(res)
 
     all_todos = sorted(all_todos, key=lambda t: t.priority, reverse=True)
     for todo in all_todos:
+        textfrag += "{0} {2} ({1})\n".format(todo.priority, todo.reponame, todo.line)
         htmlfrag += "<tr><td>%s</td> <td>%s</td> <td>%s</td> </tr>\n" %  (todo.priority, todo.reponame, todo.line)
     htmlfrag += "</table>"
     #######################
     path = "/tmp/todo.html"
     open(path, 'w').write(htmlfrag)
     import webbrowser
-    webbrowser.open(path)
+    #webbrowser.open(path)
+    print(textfrag)
 
     
 if __name__ == '__main__':
