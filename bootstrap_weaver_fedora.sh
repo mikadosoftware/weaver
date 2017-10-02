@@ -3,6 +3,7 @@
 sudo yum check-update
 sudo yum install python3-pip python3-devel python3-tools git-core -y
 sudo yum install gcc gmp redhat-rpm-config -y #needed for building pycrypto on fedora
+sudo yum install -y isomd5sum
 sudo pip3 install virtualenv
 sudo pip3 install virtualenvwrapper
 

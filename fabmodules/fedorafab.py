@@ -105,10 +105,11 @@ def install_dropbox():
     """
     sudo("yum install -y pygtk2")
     sudo("yum install -y pango")
-    tmpfile = "/tmp/dropboxfoo"
-    sudo("wget https://www.dropbox.com/download?dl=packages/fedora/nautilus-dropbox-2015.10.28-1.fedora.x86_64.rpm -O %s" % tmpfile)
-    sudo("yum localinstall %s" %  tmpfile)
-
+    tmpfile = "/tmp/dropboxfoo.rpm"
+    sudo("wget -O %s https://www.dropbox.com/download?dl=packages/fedora/nautilus-dropbox-2015.10.28-1.fedora.x86_64.rpm " % tmpfile)
+    sudo("yum localinstall -y %s" %  tmpfile)
+    #this installs a helper app - to actually install daemon run
+    #dropbox start -i ... which will run some UI for manual install
 
 def test_fab():
     """
