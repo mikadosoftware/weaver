@@ -65,6 +65,18 @@ def install_sshd():
                                 "# Configured by weaver.",
                                 use_sudo=True)
 
+
+def init_homedir():
+    '''Set up a git repo "next" to home, and use to track home dir changes.
+    
+    '''
+    sudo('whoami', user=pbrian)
+    #we want to have a nice set of dotfiles, at same time as prepping the packages etc
+    #git init --bare $HOME/.cfg
+    #alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+    #config config --local status.showUntrackedFiles no
+    #echo "alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'" >> $HOME/.bashrc
+    
 def install_docker():
     """
     NB fixed on a specific version of Docker.

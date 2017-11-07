@@ -1,6 +1,7 @@
 from fabric.api import local, env, run, sudo
 from fabric.tasks import execute
 import fabric.contrib.files
+from fabric.context_managers import settings
 import sys
 import requests
 
@@ -37,9 +38,21 @@ Features wanted
   ALternatively something that programmatically allows line changes etc etc
 
 
+    sudo('whoami', user='pbrian')
+    #we want to have a nice set of dotfiles, at same time as prepping the packages etc
+    with settings(sudo_user='pbrian'):
+        sudo("git init --bare $HOME/.cfg")
+        sudo("touch $HOME/.cfg/junk")
+        sudo("alias homegit='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'")
+        sudo("/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME config --local status.showUntrackedFiles no")
+        #this needs something else
+        sudo('''echo "alias homegit='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'" >> $HOME/.bashrc''')
 
 
 """
+
+import tempfile, io
+from fabric.api import get, put, settings
 
 #: run locally
 env.hosts = ['127.0.0.1']
@@ -54,6 +67,23 @@ def download_file(url):
                 f.write(chunk)
                 #f.flush() commented by recommendation from J.F.Sebastian
     return local_filename
+
+def init_homedir():
+    '''Set up a git repo "next" to home, and use to track home dir changes.
+    
+    we hsall have a command homegit that just operates on the home dir.
+    we need to get that local bare directory sent upto github somehow.
+
+    '''
+    sudo('whoami', user='pbrian')
+    #we want to have a nice set of dotfiles, at same time as prepping the packages etc
+    with settings(sudo_user='pbrian'):
+        sudo("git init --bare $HOME/.cfg")
+        sudo("touch $HOME/.cfg/junk")
+        sudo("alias homegit='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'")
+        sudo("/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME config --local status.showUntrackedFiles no")
+        #this needs something else
+        sudo('''echo "alias homegit='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'" >> $HOME/.bashrc''')
 
 def install_sshd():
     """
@@ -115,29 +145,62 @@ def test_fab():
     """
     """
     sudo("touch /home/pbrian/foo.txt")
+    sudo("ls -l /home/pbrian/foo.txt")
     
-def install_terminal():
+
+class RemoteException(Exception):
     """
-    Using uxrvt
-    No using mlterm
     """
-    pkgs = ['rxvt-unicode-256color',
-            'mlterm','mlterm-common',
-            'mlterm-im-scim'            
-           ]
-    for pkg in pkgs:
-        sudo("apt-get install -y %s " % pkg)
+    pass
+
+def log(txt):
+    print(txt)
+
+def read_remote_file(remote_path):
+    """read back a remote file. Assume it is UTF-8 encoded "plain" text
+    """
+
+    with settings(abort_exception=RemoteException):
+        with tempfile.TemporaryFile() as fd:
+            get(remote_path, fd)
+            fd.seek(0)
+            content=fd.read()
+            content = content.decode('utf-8')
+    return content
+
+def put_remote_file(remote_path, content):
+    """
+    """
+    with settings(abort_exception=RemoteException):
+        fd = io.StringIO()
+        fd.write(content)
+        put(fd, remote_path)
         
-def install_fonts():
+
+def edit_remote_file(remote_path,
+                     lines_to_append=None,
+                     lines_to_delete=None):
     """
-    I want to install inconsolata
     """
-    sudo("apt-get install fonts-inconsolata -y")
-    sudo("fc-cache -fv") # refresh the cache of fonts    
-    #edit .emacs?
-    #(set-default-font "Inconsolata-12")
-    #But I need to make it available
-# install python3
-# sudo apt-get install python3 python3-pip
-# install python from apt ????
-# from source, but ??? wheels first...
+    try:
+        content = read_remote_file(remote_path)
+    except RemoteException:
+        log("could not read {0}".format(remote_path))
+        content = ''
+#    content += "\n#/weaver\n"
+    content += lines_to_append 
+#    content += "\n#weaver/\n" # removed cos .Xresoucres demands ! comment symbol
+    put_remote_file(remote_path, content)
+
+
+def replace_remote_file(remote_path,
+                     lines_to_append=None,
+                     lines_to_delete=None):
+    """
+    """
+    content = ''
+    content += lines_to_append 
+    put_remote_file(remote_path, content)
+    
+    
+    
