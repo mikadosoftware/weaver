@@ -111,12 +111,47 @@ URxvt.pointerBlank:         true
 from fabmodules import fedorafab
 from fabmodules.fedorafab import run, sudo
 
-__all__ = ['install_all',]
+__all__ = ['install_termandemacs',]
 
-def install_all():
+def install_termandemacs():
     setup_xterm()
     install_terminal()
     install_fonts()
+    install_emacs()
+    setup_emacs()
+
+
+def install_emacs():
+    """
+    """
+    sudo("dnf install -y %s " % 'emacs')
+
+def setup_emacs():
+    """
+    """
+    emacs_tmpl = '''
+;; fonts etc
+;; I set .Xresources to have an arrary of colours, which emacs picks up by
+;; default, so I am not, for now, using an emacs theme.
+(set-default-font "Droid Sans Mono-24")
+
+;; Start up options
+;; do not show the intro screen in split
+(setq inhibit-startup-screen t)
+;; start in full screen mode. I do not have a tiling WM, and I mostly work
+;; on a laptop. Want a new screen, Alt-tab.
+(add-to-list 'default-frame-alist '(fullscreen . maximized)) 
+;; Only one window on startup
+(add-hook 'emacs-startup-hook 'delete-other-windows t)
+
+;; Future changes
+;; https://www.emacswiki.org/emacs/PythonProgrammingInEmacs
+; ropemacs, flycheck, pylint
+;; all goals to get to a robust dev env.
+
+    '''
+    remote_path = '/home/pbrian/.emacs.d/init.el'
+    fedorafab.replace_remote_file(remote_path, emacs_tmpl)
     
 def setup_xterm():
     """xrdb is of course and X program so needs to display out to a DISPLAY. 
@@ -144,9 +179,10 @@ def install_fonts():
     sudo("yum install -y levien-inconsolata-fonts.noarch")
     sudo("yum install -y google-droid-sans-mono-fonts.noarch")
     sudo("fc-cache -fv") # refresh the cache of fonts    
-    #edit .emacs?
-    #(set-default-font "Inconsolata-12")
-    #But I need to make it available
+
+
+
+    
 # install python3
 # sudo apt-get install python3 python3-pip
 # install python from apt ????

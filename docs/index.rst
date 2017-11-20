@@ -83,6 +83,21 @@ See https://stackoverflow.com/questions/19048732/python-setup-py-develop-vs-inst
 
 3. Install further local environments
 
+Keeping secure stuff secure
+---------------------------
+
+This is purely for local laptop issues.
+But I want to have some level of secure stuff, that can be on disk but not kept in git(hub)
+These will be
+
+* passwords to web services
+* ssh keys and similar
+
+I *think* I want an encrypted file(system?)
+I *think* I need to store them on USB key
+And then open up on disk after I install?
+Look into this further
+   
 
 
 A discussion on local environments

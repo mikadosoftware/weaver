@@ -57,6 +57,8 @@ Things I want as a develeoper
 #todo: create a useful plugin approach for weaver - so can use the
       code from imorted modules... ???
 '''
+
+
 from .devtools import xtools
 def touchpad():
     xtools.touchpad()
@@ -68,6 +70,12 @@ def clean(rootpath):
 from .devtools import todoinator
 def todo_tree(rootpath):
     todoinator.parse_tree(rootpath)
+
+def fab_runner2(commandin=None):
+    """Can I run fab commands direct?
+    
+    """
+    pass
 
 import subprocess
 def fab_runner(commandin=None):
@@ -105,6 +113,11 @@ def fab_runner(commandin=None):
     
 def main():
     args = docopt(docopt_str)
+
+
+    if args['<rootpath>'] and args['show_repos']:
+        print("starting repos")
+        show_repos()
     
     if args['<rootpath>'] and args['todo']:
         print("starting todo")
