@@ -114,10 +114,9 @@ def fab_runner(commandin=None):
 def main():
     args = docopt(docopt_str)
 
-
-    if args['<rootpath>'] and args['show_repos']:
-        print("starting repos")
-        show_repos()
+#    if args['<rootpath>'] and args['show_repos']:
+#        print("starting repos")
+#        show_repos()
     
     if args['<rootpath>'] and args['todo']:
         print("starting todo")

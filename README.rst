@@ -26,10 +26,18 @@ USB stick, formatted as DOS, and load up my .ssh, and projects file.
 
 (I guess I dont need the projects file as they are on github)
 
-Starting with Weaver
+Bootstrapping Weaver
 --------------------
 
+Weaver is supposed to be my means to (re)build my workstation.
+So I need a known good starting point - I will have a .sh script I can download
+and that will bootstrap wverything else for me.
 
+
+
+
+Starting with Weaver
+--------------------
 
 examples::
 

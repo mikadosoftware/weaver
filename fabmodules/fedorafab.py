@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+#! -*- coding:utf-8 -*-
+
 from fabric.api import local, env, run, sudo
 from fabric.tasks import execute
 import fabric.contrib.files
@@ -203,4 +206,9 @@ def replace_remote_file(remote_path,
     put_remote_file(remote_path, content)
     
     
-    
+def common_utilities():
+    """Common utilities I just want to add
+    """
+    utils = ['shutter']
+    for util in utils:
+        sudo("yum install -y {0}".format(util))

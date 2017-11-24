@@ -1,11 +1,13 @@
 
 '''
-We want to use the weaver fab lib to run a basic install, on my laptop, of the terminal settings defined in here.
+We want to use the weaver fab lib to run a basic install, on my
+laptop, of the terminal settings defined in here.
 
-I have a libary of functions in fedorafab, that I can use to write 
+I have a libary of functions in fedorafab, that I can use to write
 files to the (remote) laptop, and also setup and configure as needed.
 
 Its all here bar the fat lady singing.
+
 '''
 
 

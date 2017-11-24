@@ -1,5 +1,8 @@
-#: Install pip and virtualenvs
+#: This is part of a 'installing my laptop/workstation from scratch' process
+#: After we have installed a base distribution (Fedora, for no particular reason)
+#: then we start this boot strapping process
 
+#: Install pip and virtualenvs
 sudo yum check-update
 sudo yum install python3-pip python3-devel python3-tools git-core -y
 sudo yum install gcc gmp redhat-rpm-config -y #needed for building pycrypto on fedora
@@ -18,17 +21,13 @@ echo "export VIRTUALENVWRAPPER_VIRTUALENV=/usr/bin/virtualenv" >> ~/.bashrc
 echo "source /usr/bin/virtualenvwrapper.sh" >> ~/.bashrc
 echo "export PIP_VIRTUALENV_BASE=$VENV" >> ~/.bashrc
 
-
-
-# set fabric settings
-
-
-source ~/.bashrc
-
-chown pbrian:pbrian -R $VENV
-
 #: openssh-server
 sudo yum install openssh-server -y
 #: configure sshd (its usually pretty good so nothing needed right now)
 # now we can use fabric form the python install above to connect to the
 # sshd on localhost - all further work can be done via fabric to localhost
+
+# set fabric settings
+source ~/.bashrc
+
+chown pbrian:pbrian -R $VENV

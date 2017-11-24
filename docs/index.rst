@@ -12,12 +12,21 @@ Maintaining my Development Environment
   To enable a consistent pre- and post- commit process, ensuring linting etc
   are done correctly, commit messages are properly formatted etc.
 
-Migrating to Fedora
--------------------
-For various boring reasons I am migrating to use a Fedora workstation.
-This means I need to adjust apt-get to yum (I want weaver to remain simple so I am reluctant to jumpt tosome kind of "detect OS and do different things" approach)
+Fedora
+  I have migrated off FreeBSD onto Fedora - mostly to stop me mucking about with WiFi and
+  other laptop issues.  It's that or MacOS. I kind of regret it, but also I am not worrying
+  about display settings.  
 
 
+Weaver
+------
+
+For development purposes I am running weaver out of /projects/weaver on a venv, that uses the `pip -e` setting pointing to a local folder - so I can make changes and see them reflected in the running script.::
+
+  -e git+git@github.com:mikadosoftware/weaver.git@a41584361aafb49eac502a058d0f499ce6fd2eac#egg=Weaver
+
+#TODO: upgrade my scripts in setup.py so that there is an external script to run - this allows me to be sensible when importing.
+  
 initial start up
 This is asuming a clean machine.
 
@@ -52,14 +61,17 @@ So that means my develop,emtn work will be in pyhton3, and I need venvs in p3
 Bootstrap to weaver
 -------------------
 
-Obviously we do not start with `weaver` installed, so we need to lay out the
-(manual / to be automated) steps first.  In past incarnations I have used
-kickstart and PXEBoot to install OSes etc.  This will have to be re-remembered.
+Obviously we do not start with `weaver` installed, so we need to lay
+out the (manual / to be automated) steps first.  In past incarnations
+I have used kickstart and PXEBoot to install OSes etc.  This will have
+to be re-remembered.
 
 
 * python setup.py develop
-This (in a venv) will install weaver so that the realtive imports work ok
-See https://stackoverflow.com/questions/19048732/python-setup-py-develop-vs-install on fixing realtive imports
+  This (in a venv) will install weaver so that the realtive imports work
+  ok See
+  https://stackoverflow.com/questions/19048732/python-setup-py-develop-vs-install
+  on fixing realtive imports
 
 * I need to convert to python 3 - all my pront stmts are wrong
 
@@ -116,8 +128,6 @@ else as python venvs deployed into docker for ease of futrure deployment.
 I expcet to use pyHolodeck to bundle up venvs as .debs
 
 
-
-
 * install OS
   DOne thru manual install (ubuntu)
   TODO:
@@ -156,3 +166,9 @@ I expcet to use pyHolodeck to bundle up venvs as .debs
 * atom / emacs
 
 * pyholodeck and docker
+
+Setting up Xterm etc
+--------------------
+
+:doc:`xterm`
+  
