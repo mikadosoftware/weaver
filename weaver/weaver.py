@@ -89,7 +89,8 @@ def weaver_newfile(filename):
 
 
 '''
-    open(filename).write(tmpl)
+    #really need checks to avoid ocverwirting etc
+    open(filename, 'w').write(tmpl)
     
     
 def fab_runner2(commandin=None):
