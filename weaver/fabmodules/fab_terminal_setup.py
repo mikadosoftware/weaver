@@ -109,9 +109,8 @@ URxvt.pointerBlank:         true
 *color15: #fdf6e3
 
 '''
-
-from fabmodules import fedorafab
-from fabmodules.fedorafab import run, sudo
+from . import fedorafab
+from .fedorafab import run, sudo
 
 __all__ = ['install_termandemacs',]
 
@@ -151,6 +150,14 @@ def setup_emacs():
 ; ropemacs, flycheck, pylint
 ;; all goals to get to a robust dev env.
 
+;; Make PRIMARY selection (mouse highlight in terminal usually) 
+;;; paste-able with SHIFT INSERT
+;; C-W / C-Y still uses clipboard
+(setq select-enable-primary `t)
+;; (it used to be x-select-enable-primary but changed on emacs 25 and 
+;; the internet has not caught up yet.)
+
+
     '''
     remote_path = '/home/pbrian/.emacs.d/init.el'
     fedorafab.replace_remote_file(remote_path, emacs_tmpl)
@@ -172,6 +179,11 @@ def install_terminal():
             'xorg-x11-apps']
     for pkg in pkgs:
         sudo("dnf install -y %s " % pkg)
+
+def setup_term():
+    """We want to have the nice perl extensions
+    """
+    pass 
         
 def install_fonts():
     """
@@ -182,6 +194,15 @@ def install_fonts():
     sudo("yum install -y google-droid-sans-mono-fonts.noarch")
     sudo("fc-cache -fv") # refresh the cache of fonts    
 
+# set up bash config
+def setup_bash():
+    """
+    """
+    #set emacs for most command line usage
+    #export VISUAL="emacs"
+    #export EDITOR="$VISUAL"
+    #export GIT_EDITOR="$VISUAL" 
+    pass
 
 
     

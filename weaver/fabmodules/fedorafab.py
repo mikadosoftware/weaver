@@ -51,14 +51,21 @@ Features wanted
         #this needs something else
         sudo('''echo "alias homegit='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'" >> $HOME/.bashrc''')
 
-
 """
 
 import tempfile, io
 from fabric.api import get, put, settings
+from pprint import pprint as pp #pyflakes:ignore common idiom
 
 #: run locally
 env.hosts = ['127.0.0.1']
+
+##
+def setup():
+    """manage the environment we want to be using
+    """
+    env.hosts = ['127.0.0.1',]
+    pp(env)
 
 def download_file(url):
     local_filename = url.split('/')[-1]
@@ -144,13 +151,6 @@ def install_dropbox():
     #this installs a helper app - to actually install daemon run
     #dropbox start -i ... which will run some UI for manual install
 
-def test_fab():
-    """
-    """
-    sudo("touch /home/pbrian/foo.txt")
-    sudo("ls -l /home/pbrian/foo.txt")
-    
-
 class RemoteException(Exception):
     """
     """
@@ -209,6 +209,6 @@ def replace_remote_file(remote_path,
 def common_utilities():
     """Common utilities I just want to add
     """
-    utils = ['shutter']
+    utils = ['shutter', 'netpbm-progs']
     for util in utils:
         sudo("yum install -y {0}".format(util))

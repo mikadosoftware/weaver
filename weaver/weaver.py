@@ -5,6 +5,7 @@ Usage:
   weaver clean [<rootpath>]
   weaver touchpad
   weaver fab [<commandstr>...]
+  weaver newfile [<filename>]
   weaver (-h | --help)
   weaver --version
 
@@ -57,6 +58,16 @@ Things I want as a develeoper
 #todo: create a useful plugin approach for weaver - so can use the
       code from imorted modules... ???
 '''
+from fabric.api import local, env, run, sudo
+from fabric.tasks import execute
+import fabric.contrib.files
+
+# fab modules I have written that make a little library
+from weaver.fabmodules import fedorafab
+from weaver.fabmodules import fab_terminal_setup
+from weaver.fabmodules.fab_misc import *
+
+
 
 
 from .devtools import xtools
@@ -71,53 +82,39 @@ from .devtools import todoinator
 def todo_tree(rootpath):
     todoinator.parse_tree(rootpath)
 
+def weaver_newfile(filename):
+    ''' '''
+    tmpl = u'''#!/bin/env python
+#! *-* coding:utf-8 *-*
+
+
+'''
+    open(filename).write(tmpl)
+    
+    
 def fab_runner2(commandin=None):
     """Can I run fab commands direct?
     
     """
+    fedorafab.setup()
+    
+    #test only
+    print("ABout to run test_fab <{0}>".format(commandin))
+    val = execute(fab_terminal_setup.test_fab,
+            hosts=['127.0.0.1',]) #any args kwds in execute get passed to taskfn
+    
+    print("Val was {0}".format(val))
+
+def linteretc():
+    """
+    """
+    #We want to collect and then test and run lint and other
+    #QA tools across the whole /projects/ setup.
     pass
 
-import subprocess
-def fab_runner(commandin=None):
-    """
-    if we see "fab xxx" then run the fab subprcess and return the data?
-    issues:
-    Build a very specific cmd for a subprocess.
-    RUn the subprocess, and flash each popen line to out
-    Beware - I miss the capture of the first line, so need to remeber to login 
- 
-    TODO: fix the specific config
-    
-    
-    """
-    venv_python = '/home/pbrian/venvs/weaver/bin/python'
-    fabfilepath = '/home/pbrian/projects/weaver/fabfile.py'
-    fabbin = '/home/pbrian/venvs/weaver/bin/fab'
-    cmdlist = [venv_python, fabbin, '--fabfile=%s' % fabfilepath, commandin]
-    try:
-        p = subprocess.Popen(cmdlist,
-                             stdout=subprocess.PIPE,
-                             stderr=subprocess.STDOUT
-                             )
-        
-        for line in iter(p.stdout.readline, b''):
-            print(("> " + line.rstrip()))
-            
-    except subprocess.CalledProcessError as e:
-        print("### Fab did not like the command")
-        print(("# %s" % cmdlist))
-        print("### and returned this")
-        print((e.output))
-        print("##########")
-    
-    
 def main():
     args = docopt(docopt_str)
 
-#    if args['<rootpath>'] and args['show_repos']:
-#        print("starting repos")
-#        show_repos()
-    
     if args['<rootpath>'] and args['todo']:
         print("starting todo")
         todo_tree(args['<rootpath>'])
@@ -127,10 +124,14 @@ def main():
         print("starting clean")
         clean(args['<rootpath>'])
 
-    if len(args['<commandstr>'])>0 and args['fab']:
-        print("starting fab")
-        fab_runner(" ".join(args['<commandstr>']))
 
+    if args['<commandstr>'] and args['fab']:
+        print("starting fab")
+        fab_runner2(args['<commandstr>'])
+
+    if args['<filename>'] and args['newfile']:
+        print("creating new file")
+        weaver_newfile(args['<filename>'])
         
     if args['touchpad']:
         touchpad()
