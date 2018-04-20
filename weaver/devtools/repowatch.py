@@ -29,8 +29,8 @@ synchronised with the ridiculous number of repos I keep creating
 '''
 
 def showrepos():
-    github_password = getpass.getpass('Github password: ')
-    g = Github("lifeisstillgood", github_password)
+    github_password = open('/home/pbrian/secure/github').read()
+    g = Github(github_password)
 
     for repo in g.get_user().get_repos():
 
