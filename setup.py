@@ -14,6 +14,9 @@ setup(
     entry_points={
         'console_scripts': [
             'weaver = weaver.weaver:main',
+            'repowatch = weaver.devtools.repowatch:main',
+            'devclean = weaver.devtools.devclean:main',
+            
         ]
     },
     
