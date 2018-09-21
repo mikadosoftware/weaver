@@ -1,4 +1,4 @@
-#! -*- coding:UTF-8 -*-
+#! -*- coding:utf-8 -*-
 
 """
 Using Xwindows, clean up a bit

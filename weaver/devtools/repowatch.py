@@ -29,7 +29,7 @@ synchronised with the ridiculous number of repos I keep creating
 '''
 
 def showrepos():
-    github_password = open('/home/pbrian/secure/github').read()
+    github_password = open('/var/secrets/usb/github.pbrian.key').read().strip()
     g = Github(github_password)
 
     for repo in g.get_user().get_repos():
