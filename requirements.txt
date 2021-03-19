@@ -8,7 +8,7 @@ ecdsa==0.13
 Fabric3==1.12.post1
 idna==2.6
 imagesize==0.7.1
-Jinja2==2.8
+Jinja2==2.11.3
 MarkupSafe==0.23
 paramiko==1.17.2
 pycrypto==2.6.1
