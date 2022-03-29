@@ -10,7 +10,7 @@ idna==2.6
 imagesize==0.7.1
 Jinja2==2.8
 MarkupSafe==0.23
-paramiko==1.17.2
+paramiko==2.10.1
 pycrypto==2.6.1
 PyGithub==1.35
 Pygments==2.1.3
